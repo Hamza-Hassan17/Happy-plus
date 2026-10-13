@@ -19,3 +19,11 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Cache uploaded book files (names change on re-upload) and allow resumable downloads
+<IfModule mod_headers.c>
+    <FilesMatch "\.(pdf|jpe?g|png|webp)$">
+        Header set Cache-Control "public, max-age=2592000"
+        Header set Accept-Ranges bytes
+    </FilesMatch>
+</IfModule>

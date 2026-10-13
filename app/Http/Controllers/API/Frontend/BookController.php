@@ -21,10 +21,13 @@ class BookController extends Controller
 
             $books = Book::where('is_active', 'active')->get();
 
-            // Convert image paths to full URLs (same style as driver license)
+            // Convert stored paths to full URLs; missing files stay null instead of the bare site URL.
             $books = $books->map(function ($item) {
-                $item->image = url($item->image);
-                $item->book_pdf = url($item->book_pdf);
+                $pdfPath = $item->book_pdf ? public_path($item->book_pdf) : null;
+
+                $item->image = $item->image ? url($item->image) : null;
+                $item->pdf_size = $pdfPath && File::exists($pdfPath) ? File::size($pdfPath) : null;
+                $item->book_pdf = $item->book_pdf ? url($item->book_pdf) : null;
                 return $item;
             });
 

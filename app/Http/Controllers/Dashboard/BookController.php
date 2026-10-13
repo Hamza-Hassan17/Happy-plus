@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
+    // Large PDFs load slowly on mobile; keep uploads under 20 MB.
+    private const MAX_PDF_KB = 20480;
+
     /**
      * Display a listing of the resource.
      */
@@ -52,7 +55,7 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max_size',
-            'book_pdf' => 'nullable|file|mimes:pdf',
+            'book_pdf' => 'nullable|file|mimes:pdf|max:' . self::MAX_PDF_KB,
         ]);
 
         if ($validator->fails()) {
@@ -132,7 +135,7 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max_size',
-            'book_pdf' => 'nullable|file|mimes:pdf',
+            'book_pdf' => 'nullable|file|mimes:pdf|max:' . self::MAX_PDF_KB,
         ]);
 
         if ($validator->fails()) {

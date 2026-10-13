@@ -48,7 +48,7 @@
                         <div class="mb-4 col-md-6">
                             <label for="book_pdf" class="form-label">{{ __('PDF') }}</label>
                             <input class="form-control @error('book_pdf') is-invalid @enderror" type="file"
-                                id="book_pdf" name="book_pdf" accept="image/*" />
+                                id="book_pdf" name="book_pdf" accept="application/pdf,.pdf" />
                             @error('book_pdf')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

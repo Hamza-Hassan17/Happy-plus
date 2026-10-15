@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\GithubController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Dashboard\AnimationController;
 use App\Http\Controllers\Dashboard\BookController;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\NotificationController;
@@ -141,6 +142,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //Books
             Route::resource('books', BookController::class);
             Route::get('books/status/{id}', [BookController::class, 'updateStatus'])->name('books.status.update');
+
+            //Animations
+            Route::resource('animations', AnimationController::class);
+            Route::get('animations/status/{id}', [AnimationController::class, 'updateStatus'])->name('animations.status.update');
 
 
 

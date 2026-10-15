@@ -47,6 +47,11 @@ class UserRolePermissionSeeder extends Seeder
         Permission::create(['name' => 'update book']);
         Permission::create(['name' => 'delete book']);
 
+        Permission::firstOrCreate(['name' => 'view animation']);
+        Permission::firstOrCreate(['name' => 'create animation']);
+        Permission::firstOrCreate(['name' => 'update animation']);
+        Permission::firstOrCreate(['name' => 'delete animation']);
+
 
         // Create Roles
         $superAdminRole = Role::create(['name' => 'super-admin']); //as super-admin

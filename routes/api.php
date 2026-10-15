@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Auth\GoogleController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\Auth\RegisterController;
+use App\Http\Controllers\API\Frontend\AnimationController;
 use App\Http\Controllers\API\Frontend\BookController;
 use App\Http\Controllers\API\Frontend\NotificationController;
 use App\Http\Controllers\API\Frontend\ProfileController;
@@ -46,6 +47,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Books
     Route::get('/books', [BookController::class, 'getBooksData']);
+
+    //Animations
+    Route::get('/animations', [AnimationController::class, 'getAnimationsData']);
+    Route::get('/animations/{id}', [AnimationController::class, 'getAnimation']);
 });
 
 // Authentication Routes (Login and Register) for guests

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             TimezoneSeeder::class,
             SettingSeeder::class,
             BookSeeder::class,
+            AnimationSeeder::class,
         ]);
     }
 }

@@ -36,6 +36,14 @@
                 </a>
             </li>
         @endcan
+        @can(['view animation'])
+            <li class="menu-item {{ request()->routeIs('dashboard.animations.*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.animations.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-movie"></i>
+                    <div>{{__('Animations')}}</div>
+                </a>
+            </li>
+        @endcan
         @canany(['view user', 'view archived user'])
             <li class="menu-item {{ request()->routeIs('dashboard.user.*') || request()->routeIs('dashboard.archived-user.*') ? 'open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">

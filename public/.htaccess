@@ -22,7 +22,7 @@
 
 # Cache uploaded book files (names change on re-upload) and allow resumable downloads
 <IfModule mod_headers.c>
-    <FilesMatch "\.(pdf|jpe?g|png|webp)$">
+    <FilesMatch "\.(pdf|jpe?g|png|webp|mp4|mov|m4v|webm)$">
         Header set Cache-Control "public, max-age=2592000"
         Header set Accept-Ranges bytes
     </FilesMatch>
@@ -34,4 +34,6 @@
     ExpiresByType image/jpeg "access plus 30 days"
     ExpiresByType image/png "access plus 30 days"
     ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType video/mp4 "access plus 30 days"
+    ExpiresByType video/quicktime "access plus 30 days"
 </IfModule>

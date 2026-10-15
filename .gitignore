@@ -16,3 +16,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Animation videos are uploaded to the server manually (too large for git)
+/public/uploads/animations/videos/*
+!/public/uploads/animations/videos/.gitkeep
+/*.mp4
+/*.mov

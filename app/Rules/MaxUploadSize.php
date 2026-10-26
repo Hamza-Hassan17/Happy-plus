@@ -18,7 +18,7 @@ class MaxUploadSize implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($value->isValid() && $value->getSize() > $this->maxSize * 1024) {
-            $fail('The uploaded file exceeds the maximum allowed size of ' . $this->maxSize . ' KB.');
+            $fail(__('The uploaded file exceeds the maximum allowed size of :size KB.', ['size' => $this->maxSize]));
         }
     }
 }

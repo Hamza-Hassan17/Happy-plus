@@ -32,7 +32,7 @@ class ForgetPasswordController extends Controller
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -44,7 +44,7 @@ class ForgetPasswordController extends Controller
 
             if (!$user) {
                 return response()->json([
-                    'message' => 'No user found with this email address.',
+                    'message' => __('No user found with this email address.'),
                 ], Response::HTTP_NOT_FOUND);
             }
 
@@ -66,7 +66,7 @@ class ForgetPasswordController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'An OTP has been sent to your email. Please use it to reset your password.',
+                'message' => __('An OTP has been sent to your email. Please use it to reset your password.'),
                 'user' => $user->only(['id', 'name', 'email', 'username']),
                 'token' => $token,
             ], Response::HTTP_CREATED);
@@ -75,7 +75,7 @@ class ForgetPasswordController extends Controller
             Log::error('User Forget Password failed', ['error' => $th->getMessage()]);
 
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,7 +90,7 @@ class ForgetPasswordController extends Controller
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -101,7 +101,7 @@ class ForgetPasswordController extends Controller
             $user = $request->user();
 
             if (!$user) {
-                return response()->json(['message' => 'Unauthorized user'], 401);
+                return response()->json(['message' => __('Unauthorized user')], 401);
             }
 
             // Update user's password
@@ -115,13 +115,13 @@ class ForgetPasswordController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Password reset successfully. You can now login with your new password.',
+                'message' => __('Password reset successfully. You can now login with your new password.'),
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('User Password Reset failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

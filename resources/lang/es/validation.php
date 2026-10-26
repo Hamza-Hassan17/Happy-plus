@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => 'El campo :attribute es obligatorio.',
+    'string' => 'El campo :attribute debe ser una cadena de texto.',
+    'email' => 'El campo :attribute debe ser una dirección de correo válida.',
+    'exists' => 'El :attribute seleccionado no es válido.',
+    'unique' => 'El :attribute ya ha sido registrado.',
+    'max' => [
+        'string' => 'El campo :attribute no debe tener más de :max caracteres.',
+        'file' => 'El archivo :attribute no debe superar los :max kilobytes.',
+        'numeric' => 'El campo :attribute no debe ser mayor que :max.',
+        'array' => 'El campo :attribute no debe tener más de :max elementos.',
+    ],
+    'min' => [
+        'string' => 'El campo :attribute debe tener al menos :min caracteres.',
+        'file' => 'El archivo :attribute debe tener al menos :min kilobytes.',
+        'numeric' => 'El campo :attribute debe ser al menos :min.',
+        'array' => 'El campo :attribute debe tener al menos :min elementos.',
+    ],
+    'same' => 'Los campos :attribute y :other deben coincidir.',
+    'image' => 'El campo :attribute debe ser una imagen.',
+    'mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
+    'mimetypes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
+    'in' => 'El :attribute seleccionado no es válido.',
+    'file' => 'El campo :attribute debe ser un archivo.',
+    'numeric' => 'El campo :attribute debe ser un número.',
+    'integer' => 'El campo :attribute debe ser un número entero.',
+    'confirmed' => 'La confirmación de :attribute no coincide.',
+    'boolean' => 'El campo :attribute debe ser verdadero o falso.',
+    'date' => 'El campo :attribute debe ser una fecha válida.',
+    'array' => 'El campo :attribute debe ser una lista.',
+    'attributes' => [
+        'email' => 'correo electrónico',
+        'password' => 'contraseña',
+        'confirm_password' => 'confirmación de contraseña',
+        'name' => 'nombre',
+        'phone' => 'teléfono',
+        'profile_image' => 'imagen de perfil',
+        'gender' => 'género',
+        'otp' => 'código OTP',
+        'fcm_token' => 'token FCM',
+        'id_token' => 'token de Google',
+        'access_token' => 'token de acceso',
+    ],
+];

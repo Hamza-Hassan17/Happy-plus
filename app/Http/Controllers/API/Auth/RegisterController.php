@@ -38,7 +38,7 @@ class RegisterController extends Controller
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -98,7 +98,7 @@ class RegisterController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Your account has been created successfully.',
+                'message' => __('Your account has been created successfully.'),
                 'user' => $user->only(['id', 'name', 'email', 'username']),
                 'token' => $token,
             ], Response::HTTP_CREATED);
@@ -106,7 +106,7 @@ class RegisterController extends Controller
             DB::rollback();
             Log::error('User registration failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

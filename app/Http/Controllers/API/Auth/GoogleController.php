@@ -99,7 +99,7 @@ class GoogleController extends Controller
             Auth::attempt(['email' => $user->email, 'password' => $user->email]);
             DB::commit();
             return response()->json([
-                'message' => 'Your account has been created successfully.',
+                'message' => __('Your account has been created successfully.'),
                 'user' => $user->only(['id', 'name', 'email', 'username']),
                 'token' => $token,
             ], Response::HTTP_CREATED);
@@ -107,7 +107,7 @@ class GoogleController extends Controller
             DB::rollBack();
             Log::error('Google login failed:', ['error' => $e->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -134,7 +134,7 @@ class GoogleController extends Controller
 
             if (!$payload) {
                 return response()->json([
-                    'message' => 'Invalid Google token'
+                    'message' => __('Invalid Google token')
                 ], 401);
             }
 
@@ -223,7 +223,7 @@ class GoogleController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Google login successful',
+                'message' => __('Google login successful'),
                 'user' => $user->only(['id', 'name', 'email', 'username']),
                 'token' => $token,
             ], Response::HTTP_OK);
@@ -232,7 +232,7 @@ class GoogleController extends Controller
             Log::error('Google login failed:', ['error' => $e->getMessage()]);
 
             return response()->json([
-                'message' => 'Google login failed. Please try again.',
+                'message' => __('Google login failed. Please try again.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

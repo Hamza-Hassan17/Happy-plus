@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => 'Le champ :attribute est obligatoire.',
+    'string' => 'Le champ :attribute doit être une chaîne de caractères.',
+    'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
+    'exists' => 'Le champ :attribute sélectionné est invalide.',
+    'unique' => 'La valeur du champ :attribute est déjà utilisée.',
+    'max' => [
+        'string' => 'Le champ :attribute ne doit pas dépasser :max caractères.',
+        'file' => 'Le fichier :attribute ne doit pas dépasser :max kilo-octets.',
+        'numeric' => 'Le champ :attribute ne doit pas être supérieur à :max.',
+        'array' => 'Le champ :attribute ne doit pas contenir plus de :max éléments.',
+    ],
+    'min' => [
+        'string' => 'Le champ :attribute doit contenir au moins :min caractères.',
+        'file' => 'Le fichier :attribute doit faire au moins :min kilo-octets.',
+        'numeric' => 'Le champ :attribute doit être au moins :min.',
+        'array' => 'Le champ :attribute doit contenir au moins :min éléments.',
+    ],
+    'same' => 'Les champs :attribute et :other doivent être identiques.',
+    'image' => 'Le champ :attribute doit être une image.',
+    'mimes' => 'Le champ :attribute doit être un fichier de type : :values.',
+    'mimetypes' => 'Le champ :attribute doit être un fichier de type : :values.',
+    'in' => 'Le champ :attribute sélectionné est invalide.',
+    'file' => 'Le champ :attribute doit être un fichier.',
+    'numeric' => 'Le champ :attribute doit être un nombre.',
+    'integer' => 'Le champ :attribute doit être un entier.',
+    'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
+    'boolean' => 'Le champ :attribute doit être vrai ou faux.',
+    'date' => 'Le champ :attribute n\'est pas une date valide.',
+    'array' => 'Le champ :attribute doit être une liste.',
+    'attributes' => [
+        'email' => 'adresse e-mail',
+        'password' => 'mot de passe',
+        'confirm_password' => 'confirmation du mot de passe',
+        'name' => 'nom',
+        'phone' => 'téléphone',
+        'profile_image' => 'image de profil',
+        'gender' => 'genre',
+        'otp' => 'code OTP',
+        'fcm_token' => 'jeton FCM',
+        'id_token' => 'jeton Google',
+        'access_token' => 'jeton d\'accès',
+    ],
+];

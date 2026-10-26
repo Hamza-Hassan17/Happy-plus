@@ -58,7 +58,7 @@ class FacebookController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Login successful',
+                'message' => __('Login successful'),
                 'user' => $user->only(['id', 'name', 'email']),
                 'token' => $token
             ], Response::HTTP_OK);
@@ -66,7 +66,7 @@ class FacebookController extends Controller
             DB::rollBack();
             Log::error('Facebook login failed:', ['error' => $e->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later.'
+                'message' => __('Something went wrong! Please try again later.')
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -89,7 +89,7 @@ class FacebookController extends Controller
 
             if (!$fbUser->getEmail()) {
                 return response()->json([
-                    'message' => 'Facebook email permission missing'
+                    'message' => __('Facebook email permission missing')
                 ], 422);
             }
 
@@ -179,7 +179,7 @@ class FacebookController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Facebook Login successful',
+                'message' => __('Facebook Login successful'),
                 'user' => $user->only(['id', 'name', 'email', 'username']),
                 'token' => $token,
             ], Response::HTTP_OK);
@@ -188,7 +188,7 @@ class FacebookController extends Controller
             Log::error('Facebook Login Error', ['error' => $e->getMessage()]);
 
             return response()->json([
-                'message' => 'Invalid Facebook token or login failed'
+                'message' => __('Invalid Facebook token or login failed')
             ], 401);
         }
     }

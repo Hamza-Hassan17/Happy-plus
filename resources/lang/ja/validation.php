@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => ':attributeは必須です。',
+    'string' => ':attributeは文字列で指定してください。',
+    'email' => ':attributeには有効なメールアドレスを指定してください。',
+    'exists' => '選択された:attributeは無効です。',
+    'unique' => 'その:attributeはすでに使用されています。',
+    'max' => [
+        'string' => ':attributeは:max文字以下で指定してください。',
+        'file' => ':attributeは:maxキロバイト以下のファイルを指定してください。',
+        'numeric' => ':attributeは:max以下で指定してください。',
+        'array' => ':attributeは:max個以下で指定してください。',
+    ],
+    'min' => [
+        'string' => ':attributeは:min文字以上で指定してください。',
+        'file' => ':attributeは:minキロバイト以上のファイルを指定してください。',
+        'numeric' => ':attributeは:min以上で指定してください。',
+        'array' => ':attributeは:min個以上で指定してください。',
+    ],
+    'same' => ':attributeと:otherが一致しません。',
+    'image' => ':attributeには画像を指定してください。',
+    'mimes' => ':attributeには次のタイプのファイルを指定してください: :values。',
+    'mimetypes' => ':attributeには次のタイプのファイルを指定してください: :values。',
+    'in' => '選択された:attributeは無効です。',
+    'file' => ':attributeにはファイルを指定してください。',
+    'numeric' => ':attributeには数値を指定してください。',
+    'integer' => ':attributeには整数を指定してください。',
+    'confirmed' => ':attributeが確認用と一致しません。',
+    'boolean' => ':attributeにはtrueかfalseを指定してください。',
+    'date' => ':attributeには有効な日付を指定してください。',
+    'array' => ':attributeには配列を指定してください。',
+    'attributes' => [
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'confirm_password' => 'パスワード（確認）',
+        'name' => '名前',
+        'phone' => '電話番号',
+        'profile_image' => 'プロフィール画像',
+        'gender' => '性別',
+        'otp' => '認証コード',
+        'fcm_token' => 'FCMトークン',
+        'id_token' => 'Googleトークン',
+        'access_token' => 'アクセストークン',
+    ],
+];

@@ -36,7 +36,7 @@ class NotificationController extends Controller
         } catch (\Throwable $th) {
             Log::error('API Notifications failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong!'
+                'message' => __('Something went wrong!')
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

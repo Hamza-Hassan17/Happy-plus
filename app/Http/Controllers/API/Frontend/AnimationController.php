@@ -12,7 +12,8 @@ class AnimationController extends Controller
     public function getAnimationsData()
     {
         try {
-            $animations = Animation::where('is_active', 'active')->get()->map(fn ($item) => $this->format($item));
+            $animations = Animation::with('translations')->where('is_active', 'active')->get()
+                ->map(fn ($item) => $this->format($item));
 
             return response()->json([
                 'animations' => $animations,
@@ -20,18 +21,18 @@ class AnimationController extends Controller
         } catch (\Throwable $th) {
             Log::error('Get Animations Data failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong!'
+                'message' => __('Something went wrong!')
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function getAnimation(string $id)
     {
-        $animation = Animation::where('is_active', 'active')->find($id);
+        $animation = Animation::with('translations')->where('is_active', 'active')->find($id);
 
         if (!$animation) {
             return response()->json([
-                'message' => 'Animation not found!'
+                'message' => __('Animation not found!')
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -40,9 +41,13 @@ class AnimationController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Stored paths become full URLs; missing files stay null.
+    // Name in the requested language (English fallback); stored paths become full URLs, missing files stay null.
     private function format(Animation $item): Animation
     {
+        $locale = app()->getLocale();
+        $item->name = ($locale === 'en' ? null : $item->translation($locale)?->name) ?: $item->name;
+        $item->language = $locale;
+        $item->unsetRelation('translations');
         $item->thumbnail = $item->thumbnail ? url($item->thumbnail) : null;
         $item->video = $item->video ? url($item->video) : null;
         return $item;

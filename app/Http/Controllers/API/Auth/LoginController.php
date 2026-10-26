@@ -38,7 +38,7 @@ class LoginController extends Controller
 
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors()
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -47,7 +47,7 @@ class LoginController extends Controller
             $userfind = User::where('email', $request->email)->first();
             if (!Hash::check($request->password, $userfind->password)) {
                 return response()->json([
-                    'message' => 'Invalid credentials!'
+                    'message' => __('Invalid credentials!')
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
@@ -71,20 +71,20 @@ class LoginController extends Controller
                     );
                 }
                 return response()->json([
-                    'message' => 'Login successfully!',
+                    'message' => __('Login successfully!'),
                     'user' => $userfind->only(['id', 'name', 'email']),
                     'token' => $token
                 ], Response::HTTP_OK);
             } else {
                 return response()->json([
-                    'message' => 'User not found.'
+                    'message' => __('User not found.')
                 ], Response::HTTP_UNAUTHORIZED);
             }
         } catch (\Throwable $th) {
             Log::error("Failed to Login: " . $th->getMessage());
 
             return response()->json([
-                'message' => 'Something went wrong! Please try again later.',
+                'message' => __('Something went wrong! Please try again later.'),
                 'error' => $th->getMessage(),  // <-- TEMPORARY
                 'line' => $th->getLine(),      // <-- TEMPORARY
                 'file' => $th->getFile(),      // <-- TEMPORARY
@@ -102,15 +102,15 @@ class LoginController extends Controller
         $user = $request->user();
 
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized user'], 401);
+            return response()->json(['message' => __('Unauthorized user')], 401);
         }
 
         if ($user->email_otp !== $request->otp) {
-            return response()->json(['message' => 'Invalid OTP'], 400);
+            return response()->json(['message' => __('Invalid OTP')], 400);
         }
 
         if (Carbon::now()->greaterThan($user->otp_expires_at)) {
-            return response()->json(['message' => 'OTP expired'], 400);
+            return response()->json(['message' => __('OTP expired')], 400);
         }
 
         $user->email_verified_at = Carbon::now();
@@ -118,7 +118,7 @@ class LoginController extends Controller
         $user->otp_expires_at = null;
         $user->save();
 
-        return response()->json(['message' => 'Phone verified successfully!'], 200);
+        return response()->json(['message' => __('Phone verified successfully!')], 200);
     }
 
     public function resend_otp(Request $request)
@@ -126,13 +126,13 @@ class LoginController extends Controller
         $user = $request->user();
 
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized user'], 401);
+            return response()->json(['message' => __('Unauthorized user')], 401);
         }
 
         // Check if previous OTP is still valid
         if ($user->otp_expires_at && Carbon::now()->lessThan($user->otp_expires_at)) {
             return response()->json([
-                'message' => 'OTP is still valid. Please use the existing one.',
+                'message' => __('OTP is still valid. Please use the existing one.'),
                 'expires_at' => $user->otp_expires_at->toDateTimeString()
             ], 400);
         }
@@ -144,7 +144,7 @@ class LoginController extends Controller
         $user->save();
 
         return response()->json([
-            'message' => 'New OTP has been sent successfully!',
+            'message' => __('New OTP has been sent successfully!'),
             'expires_at' => $user->otp_expires_at->toDateTimeString()
         ], 200);
     }

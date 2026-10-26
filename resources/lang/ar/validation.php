@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => 'حقل :attribute مطلوب.',
+    'string' => 'يجب أن يكون حقل :attribute نصًا.',
+    'email' => 'يجب أن يكون حقل :attribute عنوان بريد إلكتروني صحيحًا.',
+    'exists' => 'قيمة :attribute المحددة غير صالحة.',
+    'unique' => 'قيمة :attribute مستخدمة من قبل.',
+    'max' => [
+        'string' => 'يجب ألا يتجاوز طول :attribute :max حرفًا.',
+        'file' => 'يجب ألا يتجاوز حجم الملف :attribute :max كيلوبايت.',
+        'numeric' => 'يجب ألا تكون قيمة :attribute أكبر من :max.',
+        'array' => 'يجب ألا يحتوي :attribute على أكثر من :max عناصر.',
+    ],
+    'min' => [
+        'string' => 'يجب أن يكون طول :attribute على الأقل :min حروف.',
+        'file' => 'يجب أن يكون حجم الملف :attribute على الأقل :min كيلوبايت.',
+        'numeric' => 'يجب أن تكون قيمة :attribute على الأقل :min.',
+        'array' => 'يجب أن يحتوي :attribute على الأقل على :min عناصر.',
+    ],
+    'same' => 'يجب أن يتطابق :attribute مع :other.',
+    'image' => 'يجب أن يكون :attribute صورة.',
+    'mimes' => 'يجب أن يكون :attribute ملفًا من نوع: :values.',
+    'mimetypes' => 'يجب أن يكون :attribute ملفًا من نوع: :values.',
+    'in' => 'قيمة :attribute المحددة غير صالحة.',
+    'file' => 'يجب أن يكون :attribute ملفًا.',
+    'numeric' => 'يجب أن يكون :attribute رقمًا.',
+    'integer' => 'يجب أن يكون :attribute عددًا صحيحًا.',
+    'confirmed' => 'تأكيد :attribute غير متطابق.',
+    'boolean' => 'يجب أن تكون قيمة :attribute صحيحة أو خاطئة.',
+    'date' => 'يجب أن يكون :attribute تاريخًا صحيحًا.',
+    'array' => 'يجب أن يكون :attribute مصفوفة.',
+    'attributes' => [
+        'email' => 'البريد الإلكتروني',
+        'password' => 'كلمة المرور',
+        'confirm_password' => 'تأكيد كلمة المرور',
+        'name' => 'الاسم',
+        'phone' => 'الهاتف',
+        'profile_image' => 'صورة الملف الشخصي',
+        'gender' => 'الجنس',
+        'otp' => 'رمز التحقق',
+        'fcm_token' => 'رمز FCM',
+        'id_token' => 'رمز Google',
+        'access_token' => 'رمز الوصول',
+    ],
+];

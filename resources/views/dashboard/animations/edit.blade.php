@@ -58,6 +58,7 @@
                                 <a class="btn btn-link" href="{{ asset($animation->video) }}" target="_blank">{{ __('View Video') }}</a>
                             @endif
                         </div>
+                        @include('dashboard.animations._translations')
                     </div>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-3">{{ __('Update Animation') }}</button>

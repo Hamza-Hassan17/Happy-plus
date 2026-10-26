@@ -33,7 +33,7 @@ class ProfileController extends Controller
         } catch (\Throwable $th) {
             Log::error('API Profile failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong!'
+                'message' => __('Something went wrong!')
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -51,7 +51,7 @@ class ProfileController extends Controller
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -62,7 +62,7 @@ class ProfileController extends Controller
             $user = $request->user();
 
             if (!$user) {
-                return response()->json(['message' => 'Unauthorized user'], 401);
+                return response()->json(['message' => __('Unauthorized user')], 401);
             }
 
             $user->name = $request->name;
@@ -92,13 +92,13 @@ class ProfileController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Profile updated successfully.',
+                'message' => __('Profile updated successfully.'),
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('Profile update failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -113,7 +113,7 @@ class ProfileController extends Controller
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
             return response()->json([
-                'message' => 'Validation Error!',
+                'message' => __('Validation Error!'),
                 'errors' => $validate->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -124,7 +124,7 @@ class ProfileController extends Controller
             $user = $request->user();
 
             if (!$user) {
-                return response()->json(['message' => 'Unauthorized user'], 401);
+                return response()->json(['message' => __('Unauthorized user')], 401);
             }
 
             // Update user's password
@@ -135,13 +135,13 @@ class ProfileController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Password reset successfully.',
+                'message' => __('Password reset successfully.'),
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('User Password Reset failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong! Please try again later',
+                'message' => __('Something went wrong! Please try again later'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

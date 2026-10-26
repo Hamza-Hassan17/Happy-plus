@@ -59,6 +59,7 @@ class AnimationController extends Controller
             $animation->name = $request->name;
             $this->saveFiles($request, $animation);
             $animation->save();
+            $this->saveTranslations($request, $animation);
 
             return redirect()->route('dashboard.animations.index')->with('success', 'Animation Created Successfully');
         } catch (\Throwable $th) {
@@ -82,7 +83,7 @@ class AnimationController extends Controller
     {
         $this->authorize('update animation');
         try {
-            $animation = Animation::findOrFail($id);
+            $animation = Animation::with('translations')->findOrFail($id);
             return view('dashboard.animations.edit', compact('animation'));
         } catch (\Throwable $th) {
             Log::error('Animation Edit Failed', ['error' => $th->getMessage()]);
@@ -107,6 +108,9 @@ class AnimationController extends Controller
             $animation->name = $request->name;
             $this->saveFiles($request, $animation);
             $animation->save();
+            $this->saveTranslations($request, $animation);
+            // Translation-only edits must still bump updated_at so the app refreshes its cache.
+            $animation->touch();
 
             return redirect()->route('dashboard.animations.index')->with('success', 'Animation Updated Successfully');
         } catch (\Throwable $th) {
@@ -155,7 +159,23 @@ class AnimationController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max_size',
             'video' => ($creating ? 'required' : 'nullable')
                 . '|file|mimetypes:video/mp4,video/quicktime,video/webm,video/x-m4v|max:' . self::MAX_VIDEO_KB,
+            'translations' => 'nullable|array',
+            'translations.*.name' => 'nullable|string|max:255',
         ];
+    }
+
+    // Saves the non-English names; languages left empty fall back to English.
+    private function saveTranslations(Request $request, Animation $animation): void
+    {
+        foreach (array_diff(config('app.api_locales'), ['en']) as $locale) {
+            $name = $request->input("translations.$locale.name");
+
+            if ($name) {
+                $animation->translations()->updateOrCreate(['locale' => $locale], ['name' => $name]);
+            } else {
+                $animation->translations()->where('locale', $locale)->delete();
+            }
+        }
     }
 
     private function saveFiles(Request $request, Animation $animation): void

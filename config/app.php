@@ -97,6 +97,19 @@ return [
 
     'fallback_locale' => 'en',
 
+    // Languages the mobile API can answer in (chosen per request via Accept-Language).
+    'api_locales' => ['en', 'es', 'fr', 'ru', 'ar', 'zh', 'ja'],
+
+    'api_locale_names' => [
+        'en' => 'English',
+        'es' => 'Spanish',
+        'fr' => 'French',
+        'ru' => 'Russian',
+        'ar' => 'Arabic',
+        'zh' => 'Chinese',
+        'ja' => 'Japanese',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

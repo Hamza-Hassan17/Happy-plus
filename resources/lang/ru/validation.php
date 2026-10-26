@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => 'Поле :attribute обязательно для заполнения.',
+    'string' => 'Поле :attribute должно быть строкой.',
+    'email' => 'Поле :attribute должно быть действительным адресом электронной почты.',
+    'exists' => 'Выбранное значение для :attribute некорректно.',
+    'unique' => 'Такое значение поля :attribute уже существует.',
+    'max' => [
+        'string' => 'Количество символов в поле :attribute не может превышать :max.',
+        'file' => 'Размер файла в поле :attribute не может быть больше :max КБ.',
+        'numeric' => 'Поле :attribute не может быть больше :max.',
+        'array' => 'Количество элементов в поле :attribute не может превышать :max.',
+    ],
+    'min' => [
+        'string' => 'Количество символов в поле :attribute должно быть не меньше :min.',
+        'file' => 'Размер файла в поле :attribute должен быть не меньше :min КБ.',
+        'numeric' => 'Поле :attribute должно быть не меньше :min.',
+        'array' => 'Количество элементов в поле :attribute должно быть не меньше :min.',
+    ],
+    'same' => 'Значения полей :attribute и :other должны совпадать.',
+    'image' => 'Файл в поле :attribute должен быть изображением.',
+    'mimes' => 'Файл в поле :attribute должен быть одного из следующих типов: :values.',
+    'mimetypes' => 'Файл в поле :attribute должен быть одного из следующих типов: :values.',
+    'in' => 'Выбранное значение для :attribute некорректно.',
+    'file' => 'В поле :attribute должен быть указан файл.',
+    'numeric' => 'Поле :attribute должно быть числом.',
+    'integer' => 'Поле :attribute должно быть целым числом.',
+    'confirmed' => 'Поле :attribute не совпадает с подтверждением.',
+    'boolean' => 'Поле :attribute должно иметь значение логического типа.',
+    'date' => 'Поле :attribute должно быть корректной датой.',
+    'array' => 'Поле :attribute должно быть массивом.',
+    'attributes' => [
+        'email' => 'адрес электронной почты',
+        'password' => 'пароль',
+        'confirm_password' => 'подтверждение пароля',
+        'name' => 'имя',
+        'phone' => 'телефон',
+        'profile_image' => 'изображение профиля',
+        'gender' => 'пол',
+        'otp' => 'код OTP',
+        'fcm_token' => 'токен FCM',
+        'id_token' => 'токен Google',
+        'access_token' => 'токен доступа',
+    ],
+];

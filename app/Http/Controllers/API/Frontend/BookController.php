@@ -19,15 +19,27 @@ class BookController extends Controller
         try {
             $user = $request->user();
 
-            $books = Book::where('is_active', 'active')->get();
+            $locale = app()->getLocale();
+            $books = Book::with('translations')->where('is_active', 'active')->get();
 
-            // Convert stored paths to full URLs; missing files stay null instead of the bare site URL.
-            $books = $books->map(function ($item) {
-                $pdfPath = $item->book_pdf ? public_path($item->book_pdf) : null;
+            // Serve the requested language, falling back to English per field; missing files stay null.
+            $books = $books->map(function ($item) use ($locale) {
+                $translation = $locale === 'en' ? null : $item->translation($locale);
+                $englishPdf = $item->book_pdf;
+                $pdf = $translation?->book_pdf ?: $englishPdf;
+                $pdfPath = $pdf ? public_path($pdf) : null;
 
+                $item->name = $translation?->name ?: $item->name;
+                $item->description = $translation?->description ?: $item->description;
                 $item->image = $item->image ? url($item->image) : null;
                 $item->pdf_size = $pdfPath && File::exists($pdfPath) ? File::size($pdfPath) : null;
-                $item->book_pdf = $item->book_pdf ? url($item->book_pdf) : null;
+                $item->book_pdf = $pdf ? url($pdf) : null;
+                $item->pdf_language = $pdf ? ($translation?->book_pdf ? $locale : 'en') : null;
+                $item->pdf_languages = collect($englishPdf ? ['en'] : [])
+                    ->merge($item->translations->whereNotNull('book_pdf')->pluck('locale'))
+                    ->values();
+                $item->language = $locale;
+                $item->unsetRelation('translations');
                 return $item;
             });
 
@@ -37,7 +49,7 @@ class BookController extends Controller
         } catch (\Throwable $th) {
             Log::error('Get Books Data failed', ['error' => $th->getMessage()]);
             return response()->json([
-                'message' => 'Something went wrong!'
+                'message' => __('Something went wrong!')
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -54,9 +54,10 @@ class BookController extends Controller
         $this->authorize('create book');
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max_size',
             'book_pdf' => 'nullable|file|mimes:pdf|max:' . self::MAX_PDF_KB,
-        ]);
+        ] + $this->translationRules());
 
         if ($validator->fails()) {
             Log::error('Book Validation Failed', [
@@ -69,6 +70,7 @@ class BookController extends Controller
             DB::beginTransaction();
             $book = new Book();
             $book->name = $request->name;
+            $book->description = $request->description;
 
             if ($request->hasFile('image')) {
                 $Image = $request->file('image');
@@ -91,6 +93,7 @@ class BookController extends Controller
             }
 
             $book->save();
+            $this->saveTranslations($request, $book);
 
             DB::commit();
             return redirect()->route('dashboard.books.index')->with('success', 'Book Created Successfully');
@@ -117,7 +120,7 @@ class BookController extends Controller
     {
         $this->authorize('update book');
         try {
-            $book = Book::findOrFail($id);
+            $book = Book::with('translations')->findOrFail($id);
             return view('dashboard.books.edit', compact('book'));
         } catch (\Throwable $th) {
             Log::error('Book Edit Failed', ['error' => $th->getMessage()]);
@@ -134,9 +137,10 @@ class BookController extends Controller
         $this->authorize('update book');
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max_size',
             'book_pdf' => 'nullable|file|mimes:pdf|max:' . self::MAX_PDF_KB,
-        ]);
+        ] + $this->translationRules());
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all())->with('error', 'Validation Error!');
@@ -144,6 +148,7 @@ class BookController extends Controller
         try {
             $book = Book::findOrFail($id);
             $book->name = $request->name;
+            $book->description = $request->description;
 
             if ($request->hasFile('image')) {
                 if (isset($book->image) && File::exists(public_path($book->image))) {
@@ -172,6 +177,9 @@ class BookController extends Controller
             }
 
             $book->save();
+            $this->saveTranslations($request, $book);
+            // Translation-only edits must still bump updated_at so the app refreshes its cache.
+            $book->touch();
 
             return redirect()->route('dashboard.books.index')->with('success', 'Book Updated Successfully');
         } catch (\Throwable $th) {
@@ -194,6 +202,9 @@ class BookController extends Controller
             }
             if (isset($book->book_pdf) && File::exists(public_path($book->book_pdf))) {
                 File::delete(public_path($book->book_pdf));
+            }
+            foreach ($book->translations as $translation) {
+                $this->deleteFile($translation->book_pdf);
             }
             $book->delete();
             return redirect()->back()->with('success', 'Book Deleted Successfully');
@@ -222,6 +233,61 @@ class BookController extends Controller
             Log::error('Book Status Updation Failed', ['error' => $th->getMessage()]);
             return redirect()->back()->with('error', "Something went wrong! Please try again later");
             throw $th;
+        }
+    }
+
+    private function translationLocales(): array
+    {
+        return array_values(array_diff(config('app.api_locales'), ['en']));
+    }
+
+    private function translationRules(): array
+    {
+        return [
+            'translations' => 'nullable|array',
+            'translations.*.name' => 'nullable|string|max:255',
+            'translations.*.description' => 'nullable|string',
+            'translation_pdfs' => 'nullable|array',
+            'translation_pdfs.*' => 'nullable|file|mimes:pdf|max:' . self::MAX_PDF_KB,
+        ];
+    }
+
+    // Saves the non-English name, description and PDF for each language; empty languages fall back to English.
+    private function saveTranslations(Request $request, Book $book): void
+    {
+        foreach ($this->translationLocales() as $locale) {
+            $translation = $book->translations()->firstOrNew(['locale' => $locale]);
+            $translation->name = $request->input("translations.$locale.name");
+            $translation->description = $request->input("translations.$locale.description");
+
+            if ($request->boolean("remove_translation_pdf.$locale")) {
+                $this->deleteFile($translation->book_pdf);
+                $translation->book_pdf = null;
+            }
+
+            if ($request->hasFile("translation_pdfs.$locale")) {
+                $this->deleteFile($translation->book_pdf);
+                $file = $request->file("translation_pdfs.$locale");
+                $name = time() . '_' . $locale . '_book_pdf.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/books/pdfs'), $name);
+                $translation->book_pdf = 'uploads/books/pdfs/' . $name;
+            }
+
+            if (!$translation->name && !$translation->description && !$translation->book_pdf) {
+                if ($translation->exists) {
+                    $translation->delete();
+                }
+                continue;
+            }
+
+            $translation->save();
+        }
+    }
+
+    private function deleteFile(?string $path): void
+    {
+        if ($path && File::exists(public_path($path))) {
+            File::delete(public_path($path));
         }
     }
 }

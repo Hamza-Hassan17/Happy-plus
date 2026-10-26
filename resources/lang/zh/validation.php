@@ -1,0 +1,47 @@
+<?php
+
+// Rules not listed here fall back to English.
+return [
+    'required' => ':attribute 不能为空。',
+    'string' => ':attribute 必须是字符串。',
+    'email' => ':attribute 必须是有效的电子邮件地址。',
+    'exists' => '所选的 :attribute 无效。',
+    'unique' => ':attribute 已经存在。',
+    'max' => [
+        'string' => ':attribute 不能超过 :max 个字符。',
+        'file' => ':attribute 不能大于 :max KB。',
+        'numeric' => ':attribute 不能大于 :max。',
+        'array' => ':attribute 最多只能有 :max 个项目。',
+    ],
+    'min' => [
+        'string' => ':attribute 至少需要 :min 个字符。',
+        'file' => ':attribute 大小不能小于 :min KB。',
+        'numeric' => ':attribute 必须大于等于 :min。',
+        'array' => ':attribute 至少需要 :min 个项目。',
+    ],
+    'same' => ':attribute 必须与 :other 相同。',
+    'image' => ':attribute 必须是图片。',
+    'mimes' => ':attribute 必须是以下类型的文件：:values。',
+    'mimetypes' => ':attribute 必须是以下类型的文件：:values。',
+    'in' => '所选的 :attribute 无效。',
+    'file' => ':attribute 必须是文件。',
+    'numeric' => ':attribute 必须是数字。',
+    'integer' => ':attribute 必须是整数。',
+    'confirmed' => ':attribute 两次输入不一致。',
+    'boolean' => ':attribute 必须为 true 或 false。',
+    'date' => ':attribute 不是有效的日期。',
+    'array' => ':attribute 必须是数组。',
+    'attributes' => [
+        'email' => '电子邮件',
+        'password' => '密码',
+        'confirm_password' => '确认密码',
+        'name' => '姓名',
+        'phone' => '电话',
+        'profile_image' => '头像',
+        'gender' => '性别',
+        'otp' => '验证码',
+        'fcm_token' => 'FCM 令牌',
+        'id_token' => 'Google 令牌',
+        'access_token' => '访问令牌',
+    ],
+];

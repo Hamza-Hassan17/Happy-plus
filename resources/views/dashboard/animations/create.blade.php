@@ -51,6 +51,7 @@
                                 </span>
                             @enderror
                         </div>
+                        @include('dashboard.animations._translations')
                     </div>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-3">{{ __('Add Animation') }}</button>

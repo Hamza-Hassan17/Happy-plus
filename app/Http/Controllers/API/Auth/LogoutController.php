@@ -19,12 +19,12 @@ class LogoutController extends Controller
             $user->currentAccessToken()->delete();
 
             return response()->json([
-                'message' => 'Successfully logged out.'
+                'message' => __('Successfully logged out.')
             ], Response::HTTP_OK);
         }
 
         return response()->json([
-            'message' => 'No active session found.'
+            'message' => __('No active session found.')
         ], Response::HTTP_BAD_REQUEST);
     }
 }

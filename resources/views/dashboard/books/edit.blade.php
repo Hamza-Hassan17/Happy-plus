@@ -31,10 +31,19 @@
                                 </span>
                             @enderror
                         </div>
+                        <div class="mb-4 col-md-12">
+                            <label for="description" class="form-label">{{ __('Description') }}</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="description"
+                                name="description" rows="3" placeholder="{{ __('Enter description') }}">{{ old('description', $book->description) }}</textarea>
+                            @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <div class="mb-4 col-md-6">
-                            <label for="image" class="form-label">{{ __('Image') }}</label><span
-                                class="text-danger">*</span>
-                            <input class="form-control @error('image') is-invalid @enderror" required type="file"
+                            <label for="image" class="form-label">{{ __('Image') }}</label>
+                            <input class="form-control @error('image') is-invalid @enderror" type="file"
                                 id="image" name="image" accept="image/*" />
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
@@ -58,6 +67,7 @@
                                 <a class="btn btn-link" href="{{ asset($book->book_pdf) }}" target="_blank">View PDF</a>
                             @endif
                         </div>
+                        @include('dashboard.books._translations')
                     </div>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-3">{{ __('Update Book') }}</button>
